@@ -7,22 +7,17 @@ import EmployeesList from '../employees-list/employees-list'
 import EmployeesAddForm from '../employees-add-form/employees-add-form'; 
 
 
-const data = [
-    {name: 'Mary Frezee', salary: 800, increase: false, rise: false, id: 1},
-    {name: 'John Smidt', salary: 1000, increase: true, rise: false, id:2 },
-    {name: 'Ann Grok', salary: 36000, increase: false, rise: false, id: 3},
-];
-
 class App extends Component{
     constructor(props){
         super(props);
         this.state = {
             data : [
-                {name: 'Mary Frezee', salary: 800, increase: false, rise: false, id: 1},
+                {name: 'Mary Frezee', salary: 800, increase: false, rise: true, id: 1},
                 {name: 'John Smidt', salary: 1000, increase: true, rise: false, id:2 },
                 {name: 'Ann Grok', salary: 36000, increase: false, rise: false, id: 3},
             ]
         }
+        this.maxId = 4;
     }
 
     deleteItem = (id) => {
@@ -32,6 +27,24 @@ class App extends Component{
            }
         })
     }
+
+
+    addItem = (name, salary ) => {
+        const newItem = {
+            name,
+            salary,
+            increase: false,
+            rise : false,
+            id : this.maxId ++
+        }
+        this.setState(({data}) => {
+            const newArr = [...data,newItem];
+            return {
+                data : newArr
+            }
+        })   
+    }
+
 
     render() {
         return(
@@ -44,7 +57,8 @@ class App extends Component{
                 <EmployeesList 
                     data={this.state.data}
                     onDelete={this.deleteItem}/>
-                <EmployeesAddForm/>
+                <EmployeesAddForm
+                onAdd={this.addItem}/>
             </div>
         ); 
     }
